@@ -1,21 +1,33 @@
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class VoteProcessor {
 
 	public String calculateElectionWinner(ArrayList<String> vote) {
 		String s = "";
 		String[] m;
-		for (String p : vote) {
-			s = p.toLowerCase();
-			m = s.split(",");
-			if (m[0] > m[1]) {
-				return m[0];
+		String Winner = "TIE";
+		int mostVotes = 0;
+		HashMap <String, Integer> sa = new HashMap<>();
+		for (String a : vote) {
+			int votes = 1;
+			s = a.toLowerCase();
+			if (sa.containsKey(s)) {
+				votes = sa.get(s);
+				votes++;
+				sa.put(s, votes);
 			}
-			if (m[1] > m[0]) {
-				return m[1];
-			} else {
-				return "TIE";
+			else {
+				sa.put(s, votes);
+			}
+			if (votes == mostVotes) {
+				Winner = "TIE";
+			}
+			else if(votes > mostVotes){
+				Winner = s;
+				mostVotes = votes;
 			}
 		}
+		return Winner;
 	}
 }
